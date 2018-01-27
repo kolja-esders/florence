@@ -36,3 +36,20 @@ func GetQuestions(db *sql.DB) QuestionCollection {
     }
     return result
 }
+
+func PutQuestion(db *sql.DB, content string, answer string) (int64, error) {
+    sql := "INSERT INTO questions(content, answer) VALUES(?, ?)"
+
+    stmt, err := db.Prepare(sql)
+    if err != nil {
+        panic(err)
+    }
+    defer stmt.Close()
+
+    result, err2 := stmt.Exec(content, answer)
+    if err2 != nil {
+        panic(err2)
+    }
+
+    return result.LastInsertId()
+}
