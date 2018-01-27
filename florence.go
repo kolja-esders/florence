@@ -43,6 +43,7 @@ func main() {
     e.Static("/dist", "leonardo/dist")
     e.File("/", "leonardo/index.html")
     e.GET("/questions", handlers.GetQuestions(db))
+    e.PUT("/questions", handlers.PutQuestion(db))
 
     // Start as a web server
     e.Start(":8000")
