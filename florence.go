@@ -40,8 +40,8 @@ func main() {
 
     e := echo.New()
 
-    e.Static("/dist", "assets")
-    e.File("/", "public/index.html")
+    e.Static("/dist", "leonardo/dist")
+    e.File("/", "leonardo/index.html")
     e.GET("/questions", handlers.GetQuestions(db))
 
     // Start as a web server
