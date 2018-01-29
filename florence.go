@@ -41,9 +41,9 @@ func main() {
     e := echo.New()
 
     e.Static("/dist", "leonardo/dist")
-    e.File("/", "leonardo/index.html")
-    e.GET("/questions", handlers.GetQuestions(db))
-    e.PUT("/questions", handlers.PutQuestion(db))
+    e.GET("/api/questions", handlers.GetQuestions(db))
+    e.PUT("/api/questions", handlers.PutQuestion(db))
+    e.File("/*", "leonardo/index.html")
 
     // Start as a web server
     e.Start(":8000")
