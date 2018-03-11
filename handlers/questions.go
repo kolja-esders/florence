@@ -46,7 +46,7 @@ func PutQuestion(db *sql.DB) echo.HandlerFunc {
         var question models.Question
         c.Bind(&question)
 
-        var success = models.PutQuestion(db, id, question.Content, question.Answer)
+        var success = models.PutQuestion(db, id, question.Content, question.Answer, question.IsDeleted)
         return c.JSON(http.StatusOK, success)
     }
 }

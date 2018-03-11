@@ -10,6 +10,7 @@ type Question struct {
     ID int `json:"id"`
     Content string `json:"content"`
     Answer string `json:"answer"`
+    IsDeleted bool `json:"is_deleted"`
 }
 
 type QuestionCollection struct {
@@ -27,7 +28,7 @@ func GetQuestions(db *sql.DB) QuestionCollection {
     result := QuestionCollection{}
     for rows.Next() {
         question := Question{}
-        err2 := rows.Scan(&question.ID, &question.Content, &question.Answer)
+        err2 := rows.Scan(&question.ID, &question.Content, &question.Answer, &question.IsDeleted)
         // Exit if we get an error
         if err2 != nil {
             panic(err2)
@@ -60,7 +61,7 @@ func GetQuestion(db *sql.DB, id int) Question {
     row := db.QueryRow(sql, id)  
 
     q := Question{}
-    err := row.Scan(&q.ID, &q.Content, &q.Answer)
+    err := row.Scan(&q.ID, &q.Content, &q.Answer, &q.IsDeleted)
     if err != nil {
         panic(err)
     }
@@ -69,13 +70,13 @@ func GetQuestion(db *sql.DB, id int) Question {
 }
 
 
-func PutQuestion(db *sql.DB, id int, content string, answer string) bool {
-    stmt, err := db.Prepare("UPDATE questions SET content = ?, answer = ? WHERE id = ?")
+func PutQuestion(db *sql.DB, id int, content string, answer string, is_deleted bool) bool {
+    stmt, err := db.Prepare("UPDATE questions SET content = ?, answer = ?, is_deleted = ? WHERE id = ?")
     if err != nil {
         panic(err)
     }
 
-    res, err := stmt.Exec(content, answer, id)
+    res, err := stmt.Exec(content, answer, is_deleted, id)
     if err != nil {
         panic(err)
     }

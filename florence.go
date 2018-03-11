@@ -25,7 +25,8 @@ func migrate(db *sql.DB) {
     CREATE TABLE IF NOT EXISTS questions(
         id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
         content VARCHAR NOT NULL,
-        answer VARCHAR NOT NULL
+        answer VARCHAR NOT NULL,
+        is_deleted INT DEFAULT 0
     );
     `
     _, err := db.Exec(sql)
